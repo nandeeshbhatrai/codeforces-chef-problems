@@ -114,26 +114,7 @@ ll ans = 0;
 
 void solve(int tc = 0){
     // Your solution goes here
-    if(tc == 0){
-        cin >> x;
-    }
-    cin >> n;
-    vi a(n);
-    ai(a , n);
-    sort(all(a));
-    if(n&1){
-        ll sum = 0;
-        f0r(i , n/2 + 1){
-            sum += a[i];
-        }
-        cout << sum << '\n';
-    }else{
-        ll sum = 0;
-        f1r(i , 1 , (n/2)+1){
-            sum += a[i];
-        }
-        cout << sum << '\n';
-    }
+    
 }
 
 int main() {
