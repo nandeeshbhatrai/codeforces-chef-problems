@@ -1,0 +1,1 @@
+{"name":"Local: problem","url":"/home/nandeesh/Desktop/codeforces-chef-problems/problem.cpp","tests":[{"id":1702359128474,"input":"3 0\n2\n1 2\n3\n10 1 2\n4 \n1 1 1 1","output":"2\n3\n2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/nandeesh/Desktop/codeforces-chef-problems/problem.cpp","group":"local","local":true}
