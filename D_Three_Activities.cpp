@@ -53,13 +53,11 @@ template<typename A, typename B> istream& operator>>(istream& cin, pair<A, B> &p
     return cin >> p.second;
 }
 template<typename K, typename V> ostream& operator<<(ostream& cout, const map<K, V>& m) {
-    cout << "{ ";
     for (auto it = m.begin(); it != m.end(); ++it) {
         if (it != m.begin())
-            cout << ", ";
+            cout << "\n";
         cout << '"' << it->first << '"' << ": " << '"' << it->second << '"';
     }
-    cout << " }";
     return cout;
 }
 
@@ -115,17 +113,122 @@ ll ans = 0;
 void solve(int tc = 0){
     // Your solution goes here
     cin >> n;
-    vi a(n);
-    ai(a , n);
-    vi temp = a;
-    sort(all(a));
-    vi st;
+    vector<pair<int , int>> a , b , c;
     f0r(i , n){
-        if(temp[i] != a[i]){
-            st.pb(i);
+        cin >> x;
+        a.pb({x , i+1});
+    }
+    f0r(i , n){
+        cin >> x;
+        b.pb({x , i+1});
+    }f0r(i , n){
+        cin >> x;
+        c.pb({x , i+1});
+    }
+    sort(all(a));
+    reverse(all(a));
+    sort(all(b));
+    reverse(all(b));
+    sort(all(c));
+    reverse(all(c));
+    // cout << a << '\n';;
+    // cout << b << '\n';;
+    // cout << c << '\n';;
+
+    // cout << '\n';
+
+    int ans = 0;
+    int i = 0 , j = 0 , k = 0;
+    // abc acb bca bac cab cba
+    vector<bool> done(n+1 , 0) , kk(3 , 0);
+    ans += max(a[0].f , max(b[0].f , c[0].f));
+    if(ans == a[0].f){
+        done[a[0].s] = 1;
+        kk[0] = 1;
+    }else if(ans == b[0].f){
+        done[b[0].s] = 1;
+        kk[1] = 1;
+    }else{
+        done[c[0].s] = 1;
+        kk[2] = 1;
+    }
+    while(true){
+        if(kk[0] == 1){
+            if(done[b[i].s]){
+                ++j;
+            }
+            if(done[c[j].s]){
+                ++k;
+            }
+            break;
+        }else if(kk[1] == 1){
+            if(done[a[i].s]){
+                ++i;
+            }
+            if(done[c[j].s]){
+                ++k;
+            }
+            break;
+        }else if(kk[2] == 1){
+            if(done[b[i].s]){
+                ++j;
+            }
+            if(done[a[j].s]){
+                ++i;
+            }
+            break;
         }
     }
-    
+    if(kk[0] == 1){
+        int g = max(b[j].f , c[k].f);
+        ans += g;
+        if(g == b[j].f){
+            done[b[j].s] = 1;
+            if(c[k].s == b[j].s){
+                ++k;
+            }
+            ans += c[k].f;
+        }else{
+            done[c[k].s] = 1;
+            if(b[j].s == c[k].s){
+                ++j;
+            }
+            ans += b[j].f;
+        }
+    }else if(kk[1] == 1){
+        int g = max(a[i].f , c[k].f);
+        ans += g;
+        if(g == a[i].f){
+            done[a[i].s] = 1;
+            if(c[k].s == b[j].s){
+                ++k;
+            }
+            ans += c[k].f;
+        }else{
+            done[c[k].s] = 1;
+            if(a[i].s == c[k].s){
+                ++i;
+            }
+            ans += a[i].f;
+        }
+    }else if(kk[2] == 1){
+        int g = max(b[j].f , a[i].f);
+        ans += g;
+        if(g == b[j].f){
+            done[b[j].s] = 1;
+            if(a[i].s == b[j].s){
+                ++i;
+            }
+            ans += a[i].f;
+        }else{
+            done[a[i].s] = 1;
+            if(b[j].s == a[i].s){
+                ++j;
+            }
+            ans += b[j].f;
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main() {
@@ -139,7 +242,7 @@ int main() {
     // usaco("filename");
 
     int tc = 1;
-    // cin >> tc;
+    cin >> tc;
     for (int t = 0; t < tc; t++) solve(t);
 
     #ifdef kali㉿Nandeesh

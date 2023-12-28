@@ -53,13 +53,11 @@ template<typename A, typename B> istream& operator>>(istream& cin, pair<A, B> &p
     return cin >> p.second;
 }
 template<typename K, typename V> ostream& operator<<(ostream& cout, const map<K, V>& m) {
-    cout << "{ ";
     for (auto it = m.begin(); it != m.end(); ++it) {
         if (it != m.begin())
-            cout << ", ";
+            cout << "\n";
         cout << '"' << it->first << '"' << ": " << '"' << it->second << '"';
     }
-    cout << " }";
     return cout;
 }
 
@@ -115,16 +113,9 @@ ll ans = 0;
 void solve(int tc = 0){
     // Your solution goes here
     cin >> n;
-    vi a(n);
-    ai(a , n);
-    vi temp = a;
-    sort(all(a));
-    vi st;
-    f0r(i , n){
-        if(temp[i] != a[i]){
-            st.pb(i);
-        }
-    }
+    vi a(n) , b(n);
+    ai( a , n);
+    ai( b , n);
     
 }
 
@@ -139,7 +130,7 @@ int main() {
     // usaco("filename");
 
     int tc = 1;
-    // cin >> tc;
+    cin >> tc;
     for (int t = 0; t < tc; t++) solve(t);
 
     #ifdef kali㉿Nandeesh
