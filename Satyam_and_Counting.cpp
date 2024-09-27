@@ -132,7 +132,47 @@ bool two(int n) {
 class Solution{
     public:
         void solve(int t){
-            
+            cin >> n;
+            vpl a(n) , zwale , owale;
+            ll zero = 0 , one = 0;
+            unordered_map<ll , bool> zeroes , ones;
+            f0r(i , n){
+                cin >> x >> y;
+                a[i] = {x , y};
+                if(y == 0){
+                    ++zero;
+                    zeroes[x] = true;
+                    zwale.pb({x , y});
+                }else{
+                    ++one;
+                    ones[x] = true;
+                    owale.pb({x , y});
+                }
+            }
+            ans = 0;
+            for(auto &i: zeroes){
+                if(ones.find(i.f) != ones.end()){
+                    ans += zero + one - 2;
+                }
+            }
+            sort(all(zwale));
+            sort(all(owale));
+            // cout << zwale << '\n' << owale << '\n';
+            x = zwale.size()-1;
+            f0r(i , x){
+                if((zeroes.find(zwale[i].f+2) != zeroes.end()) && (ones.find(zwale[i].f+1) != ones.end())){
+                    ++ans;
+                }
+            }
+            // cout << owale.size() << '\n';
+            x = owale.size();
+            for(int j = 0;j < x-1; ++j){
+                // cout << "done1 ";
+                if((ones.find(owale[j].f+2) != ones.end()) && (zeroes.find(owale[j].f+1) != zeroes.end())){
+                    ++ans;
+                }
+            }
+            cout << ans << '\n';
         }
     private:
 };

@@ -22,7 +22,7 @@ using namespace std::chrono;
 #define fix(prec) {cout << setprecision(prec) << fixed;}
 #define mp make_pair
 #define f first
-#define s second
+// #define s second
 #define all(v) v.begin(), v.end()
 #define rall(v) v.rbegin(), v.rend()
 #define getunique(v) {sort(all(v)); v.erase(unique(all(v)), v.end());}
@@ -132,7 +132,9 @@ bool two(int n) {
 class Solution{
     public:
         void solve(int t){
-            
+            cin >> x >> y;
+            z = (x+y)/2;
+            cout << y - x << '\n';
         }
     private:
 };
