@@ -1,0 +1,1 @@
+{"name":"Local: F","url":"d:\\Code-Forces-Chef\\codeforces-chef-problems\\ICPC\\F.cpp","tests":[{"id":1732375747076,"input":"1\n6 5\n1 6 1\n1 1 2\n1 6 3\n1 6 4\n1 6 5\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Code-Forces-Chef\\codeforces-chef-problems\\ICPC\\F.cpp","group":"local","local":true}
