@@ -1,34 +1,30 @@
-class FenwickTree:
-    def __init__(self, size):
-        self.size = size
-        self.tree = [0] * (size + 1)
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import time
 
-    def update(self, index, value):
-        while index <= self.size:
-            self.tree[index] += value
-            index += index & -index
+# Set up Chrome options
+chrome_options = Options()
+chrome_options.add_argument("--headless")  # Run in background (remove if you want to see it)
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
 
-    def query(self, index):
-        result = 0
-        while index > 0:
-            result += self.tree[index]
-            index -= index & -index
-        return result
+# Set up ChromeDriver path
+chromedriver_path = "/path/to/chromedriver"  # Update with actual path
+service = Service(chromedriver_path)
 
-def count_smaller_values_after(arr):
-    n = len(arr)
-    sorted_arr = sorted(enumerate(arr), key=lambda x: x[1])
-    fenwick_tree = FenwickTree(n)
-    result = [0] * n
+# Number of visits
+num_visits = 10
 
-    for i, (_, value) in enumerate(sorted_arr):
-        result[sorted_arr[i][0]] = fenwick_tree.query(n) - fenwick_tree.query(sorted_arr[i][0])
-        fenwick_tree.update(sorted_arr[i][0] + 1, 1)
+# GitHub Profile URL
+url = "https://github.com/nandeeshbhatrai"
 
-    return result
+# Launch browser and visit profile multiple times
+for i in range(num_visits):
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver.get(url)
+    time.sleep(5)  # Wait to simulate real browsing
+    driver.quit()
+    print(f"Visit {i+1} completed.")
 
-# Example usage:
-a = [4, 2, 9, 7, 5]
-b = count_smaller_values_after(a)
-print("Array a:", a)
-print("Array b:", b)
+print("All visits done!")

@@ -1,72 +1,80 @@
-import sys
-import io
-import os
-import math
-from typing import List, Tuple
+import time
+import requests
+import logging
+import http.client
+from requests.exceptions import RequestException
 
-# Disable buffering for interactive problems
-input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
+# Enable HTTP debugging
+http.client.HTTPConnection.debuglevel = 1
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("urllib3").setLevel(logging.DEBUG)
 
-# Uncomment the following lines if you need to use external C++ code
-# import subprocess
-# subprocess.run(['g++', '-O3', 'external_code.cpp', '-o', 'external_code'])
+# Function to send login request with retries
+def send_login_request_with_retry():
+    url = "http://10.250.209.251:1000/login"
+    headers = {
+        "4Tredir": "http://10.250.209.251:1000/login?040231f1c1f5eae7",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36",
+        "Connection": "keep-alive"
+    }
+    data = {
+        "magic": "06063afbc1fce9fd",
+        "username": "2203101",
+        "password": "BTech#22@"
+    }
 
-# Common optimization flags for GCC
-# You can adjust these based on your needs
-# flags = ['-O3', '-march=native', '-funroll-loops', '-fno-stack-protector', '-fno-strict-aliasing']
-# os.environ['CXXFLAGS'] = '- '.join(flags)
+    retries = 5  # Number of retry attempts
+    for attempt in range(retries):
+        try:
+            print(f"Attempting login... Try {attempt + 1}")
+            response = requests.post(url, headers=headers, data=data, timeout=10)
+            print(f"Login request sent. Status code: {response.status_code}, Response: {response.text}")
+            return True
+        except RequestException as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+            time.sleep(2 ** attempt)  # Exponential backoff
 
-def prime(n: int) -> bool:
-    if n <= 1:
-        return False
-    if n == 2 or n == 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    for i in range(5, int(math.sqrt(n)) + 1, 6):
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-    return True
+    print("All login retries failed.")
+    return False
 
-def print_prime_factors(n: int) -> None:
-    for i in range(1, int(math.sqrt(n)) + 1):
-        if n % i == 0:
-            print(i, end=' ')
-    for i in range(int(math.sqrt(n)) + 1, 0, -1):
-        if n % i == 0:
-            print(n // i, end=' ')
+# Function to send logout request
+def send_logout_request():
+    url = "http://10.250.209.251:1000/logout?0c030c03080f0009"
+    headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-US,en;q=0.9,ru;q=0.8",
+        "Connection": "keep-alive",
+        "Host": "10.250.209.251:1000",
+        "Referer": "http://10.250.209.251:1000/keepalive?0e0800080b030800",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+    }
 
-def sieve(n: int) -> List[bool]:
-    primes = [True] * (n + 1)
-    primes[0] = primes[1] = False
-    for index in range(2, int(math.sqrt(n)) + 1):
-        if primes[index]:
-            for i in range(index * index, n + 1, index):
-                primes[i] = False
-    return primes
+    try:
+        print("Sending logout request...")
+        response = requests.get(url, headers=headers, timeout=10)
+        print(f"Logout request sent. Status code: {response.status_code}, Response: {response.text}")
+    except RequestException as e:
+        print(f"An error occurred during logout: {e}")
 
-def solve() -> None:
-    # Your solution goes here
-    pass
-
-def main() -> None:
-    # Uncomment the next line if you are using USACO
-    # usaco("filename")
-
-    # Common input/output optimizations
-    # sys.set_in(input)
-    # sys.stdout = io.BytesIO()
-
-    t = int(input().decode())
-    for _ in range(t):
-        solve()
-
+# Main script to manage login and logout requests
 if __name__ == "__main__":
-    # Uncomment the following lines if you want to measure execution time
-    # import time
-    # start_time = time.time()
+    print("Starting background request sender...")
+    while True:
+        send_logout_request()
+        print("Attempting login...")
+        login_success = send_login_request_with_retry()
+        
+        if login_success:
+            print("Login successful. Waiting for 2 hours before logout...")
+        else:
+            print("Login failed. Skipping logout and retrying in 2 hours.")
 
-    main()
-
-    # Uncomment the following lines if you want to measure execution time
-    # print("Execution time:", time.time() - start_time, "seconds")
+        time.sleep(2 * 60 * 60)  # Wait 2 hours
+        
+        if login_success:  # Only send logout if login was successful
+            send_logout_request()
+            print("Logout completed. Waiting for 2 hours before the next login...")
+            time.sleep(2 * 60 * 60)  # Wait another 2 hours
