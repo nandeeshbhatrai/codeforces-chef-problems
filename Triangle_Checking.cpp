@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 12.03.2025 21:48:46
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -130,7 +130,9 @@ bool two(int n) {
 class Solution {
     public:
         void solve(int t) {
-            
+            cin >> x >> y >> z;
+            w = max({x, y, z});
+            cout << (x+y+z-2*w <= 0? "No": "Yes") << '\n';
         }
     private:
 };
@@ -143,7 +145,7 @@ int main() {
     send help
 
     int tc = 1;
-    cin >> tc;
+    // cin >> tc;
     Solution problem;
     for (int t = 0; t < tc; t++) {
         problem.solve(t);

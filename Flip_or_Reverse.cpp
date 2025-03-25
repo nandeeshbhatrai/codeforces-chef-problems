@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 12.03.2025 20:15:36
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -130,7 +130,24 @@ bool two(int n) {
 class Solution {
     public:
         void solve(int t) {
-            
+            cin >> n;
+            string s1, s2;
+            cin >> s1 >> s2;
+            vector<vl> a;
+            f0r(i , n){
+                if(s1[i] != s2[i]){
+                    a.pb({1, i+1});
+                    while(i < n && s1[i] != s2[i]){
+                        ++i;
+                    }
+                    --i;
+                    a.back().pb(i+1);
+                }
+            }
+            cout << a.size() << '\n';
+            f0r(i , a.size()){
+                cout << a[i][0] << ' ' << a[i][1] << ' ' << a[i][2] << '\n';
+            }
         }
     private:
 };

@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 12.03.2025 20:52:23
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -115,12 +115,12 @@ vector<int> seive(ll n) {
 // const lld pi = 3.14159265358979323846;
 const ll mod = 1000000007;
 // const ll mod = 998244353;
-ll n, m, k, p, q, l, r, w, x, y, z , h, d;
+ll n, m, k, p, q, l, r, w, x, y, z , h, d, prev, cnt;
 // const ll template_array_size = 1e6 + 585;
 // ll a[template_array_size];
 // ll b[template_array_size];
 // ll c[template_array_size];
-string s;
+string s, s1, s2, s3, s4;
 ll ans = 0;
 
 bool two(int n) {
@@ -130,7 +130,34 @@ bool two(int n) {
 class Solution {
     public:
         void solve(int t) {
-            
+            cin >> n;
+            vl a(n);
+            ai(a, n);
+            sort(all(a));
+            vpl b;
+            ll prev = a[0];
+            ll cnt = 0;
+            f0r(i , n){
+                if(a[i] == prev){
+                    ++cnt;
+                }else{
+                    b.pb({prev, cnt});
+                    cnt = 1;
+                    prev = a[i];
+                }
+            }
+            b.pb({prev, cnt});
+            ans = n*(n-1);
+            // cout << b << '\n';
+            x = 0;
+            f0r(i , b.size()){
+                f1r(j , i+1, b.size()){
+                    if((b[i].f & b[j].f) == 0){
+                        x += b[i].s*b[j].s;
+                    }
+                }
+            }
+            cout << ans - x << '\n';
         }
     private:
 };

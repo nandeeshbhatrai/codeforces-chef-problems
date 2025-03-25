@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 20.03.2025 03:16:29
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -90,8 +90,10 @@ void printprimefactors(ll n) {
     }
 }
 
-vector<int> seive(ll n) {
-    vector<int> primes(n + 1, 1);
+vector<ll> seive(ll n) {
+    vector<ll> primes(n + 1, 1);
+    primes[0] = 0;
+    primes[1] = 0;
     for (ll index = 2; index * index <= n; ++index) {
         if (primes[index]) {
             for (ll i = index * index; i <= n; i += index) {
@@ -127,10 +129,52 @@ bool two(int n) {
     return (n > 0) && ((n & (n - 1)) == 0);
 }
 
+vl primes;
+
 class Solution {
     public:
         void solve(int t) {
-            
+            cin >> n >> k;
+            bool ok = true;
+            auto it = upper_bound(all(primes), n);
+            if(it == primes.begin()){
+                ok = false;
+            }else{
+                --it;
+            }
+            ll p1 = *it;
+            cout << "p1 = " << p1 << '\n';
+            if(ok){
+                if(p1 < k){
+                    cout << "-1 -1\n";
+                    return;
+                }
+                auto it2 = upper_bound(all(primes), p1-k);
+                if(it2 != primes.begin()){
+                    --it2;
+                }else{
+                    if(abs(p1 - 1) >= k && (p1*1 - 1) >= 2*k){
+                        cout << p1 << ' ' << 1 << '\n';
+                        return;
+                    }else{
+                        cout << "-1 -1\n";
+                        return;
+                    }
+                }
+                ll p2 = *it2;
+                cout << "p2 = " << p2 << '\n';
+                if(abs(p1 - p2) >= k && (p1*p2 - 1) >= 2*k){
+                    cout << p1 << ' ' << p2 << '\n';
+                    return;
+                }else{
+                    cout << "-1 -1\n";
+                    return;
+                }
+            }else{
+                cout << "-1 -1\n";
+                return;
+            }
+            cout << p1 << '\n';
         }
     private:
 };
@@ -141,6 +185,18 @@ int main() {
     #endif
 
     send help
+
+    vl gg = seive(1e6);
+
+    f0r(i , 1e6){
+        if(gg[i]){
+            primes.pb(i);
+        }
+    }
+
+    f0r(i , 10){
+        cout << primes[i] << ' ';
+    }cout << '\n';
 
     int tc = 1;
     cin >> tc;

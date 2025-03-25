@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 12.03.2025 20:01:00
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -130,7 +130,13 @@ bool two(int n) {
 class Solution {
     public:
         void solve(int t) {
-            
+            cin >> x >> y >> k;
+            d = abs(x - y);
+            if(abs(d-k) % 2 == 1){
+                cout << -1 << '\n';
+                return;
+            }
+            cout << abs((d-k)/2) << '\n';
         }
     private:
 };

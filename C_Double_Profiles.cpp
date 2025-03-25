@@ -139,14 +139,10 @@ class Solution {
             f0r(i , m){
                 cin >> x >> y;
                 --x;--y;
-                if(a[x].size() == 0){
-                    a[x].pb('0'+x);
-                }
-                if(a[y].size() == 0){
-                    a[y].pb('0'+y);
-                }
-                a[x].pb('0'+y);
-                a[y].pb('0'+x);
+                a[x].pb(',');
+                a[x] += to_string(y);
+                a[y].pb(',');
+                a[y] += to_string(x);
             }
             f0r(i , n){
                 sort(all(a[i]));
@@ -157,13 +153,24 @@ class Solution {
             }
             ll ans = 0;
             for(auto i : mp){
-                if(i.s == 1){
-                    ans += i.s;
-                    continue;
-                }
                 ans += i.s*(i.s-1)/2;
             }
-            cout << a << '\n';
+            cout << a << ' ' << ans << '\n';
+            // cout << ans << '\n';
+            //
+            f0r(i , n){
+                a[i] += "," + to_string(i);
+                sort(all(a[i]));
+            }
+            map<string, int> mx;
+            f0r(i , n){
+                mx[a[i]]++;
+            }
+            // ll ans = 0;
+            for(auto i : mx){
+                ans += i.s*(i.s-1)/2;
+            }
+            cout << a << ' ' << ans << '\n';
             cout << ans << '\n';
         }
     private:
