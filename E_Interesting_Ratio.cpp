@@ -1,5 +1,5 @@
 // Author: Nandeesh
-// created: 25.03.2025 01:52:08
+// created: 25.03.2025 20:43:43
 
 #include <bits/stdc++.h>
 // #include <chrono>
@@ -90,8 +90,10 @@ void printprimefactors(ll n) {
     }
 }
 
-vector<int> seive(ll n) {
-    vector<int> primes(n + 1, 1);
+vector<ll> seive(ll n) {
+    vector<ll> primes(n + 1, 1);
+    primes[0] = 0;
+    primes[1] = 0;
     for (ll index = 2; index * index <= n; ++index) {
         if (primes[index]) {
             for (ll i = index * index; i <= n; i += index) {
@@ -123,64 +125,34 @@ ll n, m, k, p, q, l, r, w, x, y, z , h, d;
 string s;
 ll ans = 0;
 
-bool two(int n) {
+bool two(ll n) {
     return (n > 0) && ((n & (n - 1)) == 0);
 }
+
+vl primes;
 
 class Solution {
     public:
         void solve(int t) {
-            // string text = "engine", pref = "raven", suff = "ginko";
-            string text = "ab", pref = "a", suff = "b";
-            string pr = "" , su = "";
-            reverse(all(pref));
-            int i = 0, j = 0;
-            while(i < pref.size() && j < text.size()){
-                if(pref[i] == text[j]){
-                    pr.pb(pref[i]);
-                    ++i;
-                }
-                ++j;
-            }
-            reverse(all(pr));
-            cout << pr << '\n';
-            i = 0 , j = 0;
-            while(i < suff.size() && j < text.size()){
-                if(suff[i] == text[j]){
-                    su.pb(suff[i]);
-                    ++i;
-                }
-                ++j;
-            }
-            cout << su << '\n';
-            string ans = pr + su;
-            // cout << ans << '\n';
-            i = 0;
-            while(i + ans.size() < text.size()){
-                if(text.substr(i , ans.size()) == ans){
-                    cout << ans << '\n';
-                    return;
-                }
-                ++i;
-            }
-            if(pr.size() < su.size()){
-                cout << su << '\n';
-                return;
-            }else if(pr.size() > su.size()){
-                cout << pr << '\n';
-                return;
-            }else{
-                f0r(i , pr.size()){
-                    if(pr[i] < su[i]){
-                        cout << pr << '\n';
-                        return ;
-                    }else if(pr[i] > su[i]){
-                        cout << su << '\n';
-                        return;
-                    }
+            cin >> n;
+            ans = 0;
+            // f0r(i , 11){
+            //     cout << primes[i] << ' ' ;
+            // }cout << '\n';
+            ll cnt = 0;
+            f1r(i , 2, n+1){
+                if(primes[i]){
+                    ++cnt;
                 }
             }
-            cout << pr << '\n';
+            // cout << "cnt = " << cnt << '\n';
+            ans = cnt; // (1, prime)
+            f1r(i , 2, n+1){
+                if(primes[i]){
+                    ans += (n/i - 1);
+                }
+            }
+            cout << ans << '\n';
         }
     private:
 };
@@ -191,6 +163,8 @@ int main() {
     #endif
 
     send help
+
+    primes = seive(1e7);
 
     int tc = 1;
     cin >> tc;
